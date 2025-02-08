@@ -299,9 +299,20 @@ public enum EventHandler implements EventBase<EventHandler> {
                 return;
             }
 
-            final int centreX = observer.component.getWidth() >> 1, centreY = observer.component.getHeight() >> 1;
+            int centreX = observer.component.getWidth() >> 1, centreY = observer.component.getHeight() >> 1;
             if (observer.component.isShowing() && EventObserver.MOUSE_ROBOT.isPresent()) {
                 final Point offset = observer.component.getLocationOnScreen();
+
+                // store the previous x coordinate in centreX
+                MouseEvent me = (MouseEvent) ev;
+                MouseEvent lastEvent = (MouseEvent) observer.lastEvent;
+                if (lastEvent != null) {
+                    System.out.printf("LAST event: (%s, %s)%n", lastEvent.getX(), lastEvent.getY());
+                    // misuse centreX for previous x position
+                    centreX = lastEvent.getX();
+                }
+                System.out.printf("CURR event: (%s, %s)%n", me.getX(), me.getY());
+
                 observer.mouseEvent.moveIn((MouseEvent) ev, EventObserver.MOUSE_ROBOT.get(), offset, centreX, centreY, isDrag);
             } else {
                 observer.mouseEvent.moveIn((MouseEvent) ev, centreX, centreY, isDrag);
@@ -311,6 +322,9 @@ public enum EventHandler implements EventBase<EventHandler> {
                 observer.mouseEvent.resetNotify();
                 observer.feed(observer.mouseEvent);
             }
+
+            // store the last event
+            observer.lastEvent = ev;
         };
     }
 

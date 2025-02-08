@@ -63,6 +63,9 @@ public class EventObserver<Handler extends Enum<Handler> & EventBase<Handler>> {
     static final Optional<Robot> MOUSE_ROBOT = createRobot();
     private static final Logger LOGGER = Loggers.getLogger(EventObserver.class.getName());
 
+    // used to determine the direction of the mouse movement
+    public AWTEvent lastEvent = null;
+
     /**
      * The Robot does not necessary gets created. When not, it throws an exception.
      * We ignore that exception, and set Robot to null. So, any call to Robot
