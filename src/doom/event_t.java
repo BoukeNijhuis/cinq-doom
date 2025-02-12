@@ -456,10 +456,6 @@ public interface event_t {
             }
 
             this.x = diff * 20;
-
-            System.out.println("" + x);
-
-
         }
 
         public void moveIn(MouseEvent ev, Robot robot, Point windowOffset, int centreX, int centreY, boolean drag) {
