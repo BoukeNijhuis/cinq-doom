@@ -582,6 +582,15 @@ public class DoomMain<T, V> extends DoomStatus<T, V> implements IDoomGameNetwork
             // Update sound output.
             soundDriver.SubmitSound();
             //#endif
+
+            // simulate stepping through menu (only on the first frame)
+            if (frameon == 1) {
+                menu.StartControlPanel();
+                event_t event = new event_t.keyevent_t(ev_keydown, Signals.ScanCode.SC_ENTER);
+                menu.Responder(event);
+                menu.Responder(event);
+                DoNewGame();
+            }
         }
     }
 
