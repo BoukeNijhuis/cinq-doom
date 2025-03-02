@@ -62,6 +62,7 @@ import static doom.player_t.CF_NOCLIP;
 import doom.weapontype_t;
 import g.Signals;
 import java.awt.Rectangle;
+import java.util.Date;
 import m.Settings;
 import m.cheatseq_t;
 import p.mobj_t;
@@ -347,6 +348,9 @@ public class StatusBar extends AbstractStatusBar {
     // used for timing (unsigned int .. maybe long !)
     private long st_clock;
 
+    // used to calculate passed time
+    private long oldTimestamp;
+
     // used for making messages go away
     int st_msgcounter = 0;
 
@@ -408,6 +412,10 @@ public class StatusBar extends AbstractStatusBar {
     private patch_t[][] arms = new patch_t[6][2];
 
     // // WIDGETS /////
+
+    // time widget
+    private st_number_t w_time;
+
     // ready-weapon widget
     private st_number_t w_ready;
 
@@ -1258,12 +1266,14 @@ public class StatusBar extends AbstractStatusBar {
         // used by w_frags widget
         st_fragson[0] = DOOM.deathmatch && st_statusbaron[0];
 
+        w_time.update(refresh);
+
         w_ready.update(refresh);
 
-        for (i = 0; i < 4; i++) {
-            w_ammo[i].update(refresh);
-            w_maxammo[i].update(refresh);
-        }
+//        for (i = 0; i < 4; i++) {
+//            w_ammo[i].update(refresh);
+//            w_maxammo[i].update(refresh);
+//        }
 
         w_armor.update(refresh);
 
@@ -1308,6 +1318,13 @@ public class StatusBar extends AbstractStatusBar {
 
         // Do red-/gold-shifts from damage/items
         doPaletteStuff();
+
+        // a second has passed
+        long now = new Date().getTime();
+        if ((now - oldTimestamp) > 1000) {
+            plyr.time[0]--;
+            oldTimestamp = now;
+        }
 
         // If just after ST_Start(), refresh all
         if (st_firsttime) {
@@ -1452,6 +1469,7 @@ public class StatusBar extends AbstractStatusBar {
         plyr = DOOM.players[DOOM.consoleplayer];
 
         st_clock = 0;
+        oldTimestamp = new Date().getTime();
         st_chatstate = st_chatstateenum_t.StartChatState;
         st_gamestate = st_stateenum_t.FirstPersonState;
 
@@ -1485,6 +1503,11 @@ public class StatusBar extends AbstractStatusBar {
     public void createWidgets() {
 
         int i;
+
+        w_time
+                = new st_number_t(ST_AMMO0X + 30, ST_AMMO0Y, tallnum, plyr.time,
+                weaponinfo[plyr.readyweapon.ordinal()].ammo.ordinal(),
+                st_statusbaron, 0, ST_AMMOWIDTH);
 
         // ready weapon ammo
         w_ready
