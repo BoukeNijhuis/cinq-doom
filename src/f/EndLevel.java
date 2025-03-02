@@ -1085,8 +1085,8 @@ public class EndLevel<T, V> extends AbstractEndLevel {
                     continue;
                 }
 
-                cnt_kills[i] = (plrs[i].skills * 100) / wbs.maxkills;
-                cnt_items[i] = (plrs[i].sitems * 100) / wbs.maxitems;
+                cnt_kills[i] = plrs[i].skills; // (plrs[i].skills * 100) / wbs.maxkills;
+                cnt_items[i] = plrs[i].sitems; //(plrs[i].sitems * 100) / wbs.maxitems;
                 cnt_secret[i] = (plrs[i].ssecret * 100) / wbs.maxsecret;
 
                 if (dofrags != 0) {
@@ -1274,7 +1274,7 @@ public class EndLevel<T, V> extends AbstractEndLevel {
         state = endlevel_state.StatCount;
         acceleratestage = 0;
         sp_state = 1;
-        cnt_kills[0] = cnt_items[0] = cnt_secret[0] = -1;
+        cnt_kills[0] = cnt_items[0] = cnt_secret[0] = 0;//-1;
         cnt_time = cnt_par = -1;
         cnt_pause = TICRATE;
 
@@ -1300,6 +1300,7 @@ public class EndLevel<T, V> extends AbstractEndLevel {
             sp_state = 10;
         }
 
+        // TODO fix sounds
         if (sp_state == COUNT_KILLS) {
             cnt_kills[0] += 2;
 
@@ -1307,8 +1308,8 @@ public class EndLevel<T, V> extends AbstractEndLevel {
                 DOOM.doomSound.StartSound(null, sfxenum_t.sfx_pistol);
             }
 
-            if (cnt_kills[0] >= (plrs[me].skills * 100) / wbs.maxkills) {
-                cnt_kills[0] = (plrs[me].skills * 100) / wbs.maxkills;
+            if (cnt_kills[0] >= plrs[me].skills) { //(plrs[me].skills * 100) / wbs.maxkills) {
+                cnt_kills[0] = plrs[me].skills; //(plrs[me].skills * 100) / wbs.maxkills;
                 DOOM.doomSound.StartSound(null, sfxenum_t.sfx_barexp);
                 sp_state++;
             }
@@ -1328,17 +1329,17 @@ public class EndLevel<T, V> extends AbstractEndLevel {
             cnt_secret[0] += 2;
 
             if ((bcnt & 3) == 0) {
-                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_pistol);
+//                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_pistol);
             }
 
             if (cnt_secret[0] >= (plrs[me].ssecret * 100) / wbs.maxsecret) {
                 cnt_secret[0] = (plrs[me].ssecret * 100) / wbs.maxsecret;
-                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_barexp);
+//                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_barexp);
                 sp_state++;
             }
         } else if (sp_state == COUNT_TIME) {
             if ((bcnt & 3) == 0) {
-                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_pistol);
+//                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_pistol);
             }
 
             cnt_time += 3;
@@ -1391,21 +1392,23 @@ public class EndLevel<T, V> extends AbstractEndLevel {
         drawLF();
 
         DOOM.graphicSystem.DrawPatchScaled(FG, kills, DOOM.vs, SP_STATSX, SP_STATSY, V_NOSCALESTART);
-        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY, cnt_kills[0]);
+//        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY, cnt_kills[0]);
+        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY, cnt_kills[0], 3);
 
         DOOM.graphicSystem.DrawPatchScaled(FG, items, DOOM.vs, SP_STATSX, SP_STATSY + lh, V_NOSCALESTART);
-        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + lh, cnt_items[0]);
+//        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + lh, cnt_items[0]);
+        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + lh, cnt_items[0], 3);
 
-        DOOM.graphicSystem.DrawPatchScaled(FG, sp_secret, DOOM.vs, SP_STATSX, SP_STATSY + 2 * lh, V_NOSCALESTART);
-        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + 2 * lh, cnt_secret[0]);
+//        DOOM.graphicSystem.DrawPatchScaled(FG, sp_secret, DOOM.vs, SP_STATSX, SP_STATSY + 2 * lh, V_NOSCALESTART);
+//        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + 2 * lh, cnt_secret[0]);
 
-        DOOM.graphicSystem.DrawPatchScaled(FG, time, DOOM.vs, SP_TIMEX, SP_TIMEY, V_NOSCALESTART);
-        drawTime(DOOM.vs.getScreenWidth() / 2 - SP_TIMEX, SP_TIMEY, cnt_time);
+//        DOOM.graphicSystem.DrawPatchScaled(FG, time, DOOM.vs, SP_TIMEX, SP_TIMEY, V_NOSCALESTART);
+//        drawTime(DOOM.vs.getScreenWidth() / 2 - SP_TIMEX, SP_TIMEY, cnt_time);
 
-        if (wbs.epsd < 3) {
-            DOOM.graphicSystem.DrawPatchScaled(FG, par, DOOM.vs, DOOM.vs.getScreenWidth() / 2 + SP_TIMEX, SP_TIMEY, V_NOSCALESTART);
-            drawTime(DOOM.vs.getScreenWidth() - SP_TIMEX, SP_TIMEY, cnt_par);
-        }
+//        if (wbs.epsd < 3) {
+//            DOOM.graphicSystem.DrawPatchScaled(FG, par, DOOM.vs, DOOM.vs.getScreenWidth() / 2 + SP_TIMEX, SP_TIMEY, V_NOSCALESTART);
+//            drawTime(DOOM.vs.getScreenWidth() - SP_TIMEX, SP_TIMEY, cnt_par);
+//        }
 
     }
 

@@ -1967,7 +1967,8 @@ public class DoomMain<T, V> extends DoomStatus<T, V> implements IDoomGameNetwork
         for (int i = 0; i < MAXPLAYERS; i++) {
             wminfo.plyr[i].in = playeringame[i];
             wminfo.plyr[i].skills = players[i].killcount;
-            wminfo.plyr[i].sitems = players[i].itemcount;
+            // TODO update with time left
+            wminfo.plyr[i].sitems = players[i].time[0] + 1; //players[i].itemcount;
             wminfo.plyr[i].ssecret = players[i].secretcount;
             wminfo.plyr[i].stime = leveltime;
             memcpy(wminfo.plyr[i].frags, players[i].frags, wminfo.plyr[i].frags.length);

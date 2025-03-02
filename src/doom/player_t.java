@@ -114,7 +114,7 @@ public class player_t /*extends mobj_t */ implements Cloneable, IReadableDoomObj
         powers = new int[NUMPOWERS];
         frags = new int[MAXPLAYERS];
         // TODO initialize the starting time properly
-        time = new int[]{3};
+        time = new int[]{300};
         ammo = new int[NUMAMMO];
         //maxammo = new int[NUMAMMO];
         maxammo = new int[NUMAMMO];
