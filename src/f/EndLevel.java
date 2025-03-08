@@ -134,6 +134,7 @@ import static data.Defines.TICRATE;
 import static data.Limits.MAXPLAYERS;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import data.sounds.musicenum_t;
 import data.sounds.sfxenum_t;
@@ -159,6 +160,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -332,6 +334,9 @@ public class EndLevel<T, V> extends AbstractEndLevel {
      * Name graphics of each level (centered)
      */
     patch_t[] lnames;
+
+    // total score
+    int totalScore = 0;
 
     //
     // CODE
@@ -1346,27 +1351,8 @@ public class EndLevel<T, V> extends AbstractEndLevel {
                 cnt_secret[0] = (plrs[me].ssecret * 100) / wbs.maxsecret;
 //                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_barexp);
                 sp_state++;
-                // write the score to file
-                Gson gson = new Gson();
-                Type listType = new TypeToken<ArrayList<UserData>>(){}.getType();
-                String fileName = System.getProperty("user.home") + "/user_data.json";
-                try {
-                    String uri = "file://" + fileName;
-                    // safety copy
-                    Path originalFile = Path.of(new URI(uri));
-                    Files.copy(originalFile, Path.of(new URI(uri + ".old")), StandardCopyOption.REPLACE_EXISTING);
 
-                    List<UserData> userList = gson.fromJson(new FileReader(fileName), listType);
-                    // TODO put the real score here
-                    userList.getLast().setScore(100);
-                    FileWriter writer = new FileWriter(fileName);
-                    gson.toJson(userList, writer);
-                    writer.close();
-                } catch (IOException | URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-
-
+                saveScore();
             }
         } else if (sp_state == COUNT_TIME) {
             if ((bcnt & 3) == 0) {
@@ -1409,6 +1395,37 @@ public class EndLevel<T, V> extends AbstractEndLevel {
 
     }
 
+    private void saveScore() {
+        // write the score to file
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type listType = new TypeToken<ArrayList<UserData>>(){}.getType();
+        String fileName = System.getProperty("user.home") + "/user_data.json";
+        try {
+            // safety copy
+            String uri = "file://" + fileName;
+            Path originalFile = Path.of(new URI(uri));
+            Files.copy(originalFile, Path.of(new URI(uri + ".old")), StandardCopyOption.REPLACE_EXISTING);
+
+            // read the file & update score
+            List<UserData> userList = gson.fromJson(new FileReader(fileName), listType);
+            // only change score when there was no score
+            if (userList.getLast().getScore() == 0) {
+                userList.getLast().setScore(totalScore);
+            }
+
+            // sort the list
+            userList.sort(Comparator.comparingInt(UserData::getScore));
+            userList = userList.reversed();
+
+            // write the new list to the file
+            FileWriter writer = new FileWriter(fileName);
+            gson.toJson(userList, writer);
+            writer.close();
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     protected void drawStats() {
         // line height
         int lh;
@@ -1424,7 +1441,8 @@ public class EndLevel<T, V> extends AbstractEndLevel {
 
         DOOM.graphicSystem.DrawPatchScaled(FG, kills, DOOM.vs, SP_STATSX, SP_STATSY, V_NOSCALESTART);
 //        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY, cnt_kills[0]);
-        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY, cnt_kills[0], 3);
+        int killScore = cnt_kills[0] * 10;
+        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY, killScore, 3);
 
         DOOM.graphicSystem.DrawPatchScaled(FG, time, DOOM.vs, SP_STATSX, SP_STATSY + lh, V_NOSCALESTART);
 //        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + lh, cnt_items[0]);
@@ -1432,8 +1450,8 @@ public class EndLevel<T, V> extends AbstractEndLevel {
 
         DOOM.graphicSystem.DrawPatchScaled(FG, total, DOOM.vs, SP_STATSX, SP_STATSY + 3 * lh, V_NOSCALESTART);
 //        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + 2 * lh, cnt_secret[0]);
-        int totalPoints = cnt_kills[0] + cnt_items[0];
-        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + 3 * lh, totalPoints, 3);
+        totalScore = killScore + cnt_items[0];
+        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + 3 * lh, totalScore, 3);
 
 //        DOOM.graphicSystem.DrawPatchScaled(FG, time, DOOM.vs, SP_TIMEX, SP_TIMEY, V_NOSCALESTART);
 //        drawTime(DOOM.vs.getScreenWidth() / 2 - SP_TIMEX, SP_TIMEY, cnt_time);

@@ -15,13 +15,16 @@ public final class UserData {
         this.score = score;
     }
 
-
     public long getStarttime() {
         return starttime;
     }
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     @Override
