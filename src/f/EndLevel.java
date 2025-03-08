@@ -132,11 +132,13 @@ import static data.Defines.PU_CACHE;
 import static data.Defines.PU_STATIC;
 import static data.Defines.TICRATE;
 import static data.Limits.MAXPLAYERS;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import data.sounds.musicenum_t;
 import data.sounds.sfxenum_t;
 import defines.Language_t;
-import doom.DoomMain;
-import doom.SourceCode;
+import doom.*;
 import doom.SourceCode.CauseOfDesyncProbability;
 import doom.SourceCode.WI_Stuff;
 import static doom.SourceCode.WI_Stuff.WI_Start;
@@ -146,10 +148,18 @@ import static doom.SourceCode.WI_Stuff.WI_initNetgameStats;
 import static doom.SourceCode.WI_Stuff.WI_initStats;
 import static doom.SourceCode.WI_Stuff.WI_initVariables;
 import static doom.SourceCode.WI_Stuff.WI_loadData;
-import doom.event_t;
-import doom.player_t;
-import doom.wbplayerstruct_t;
-import doom.wbstartstruct_t;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mochadoom.Loggers;
@@ -1336,6 +1346,27 @@ public class EndLevel<T, V> extends AbstractEndLevel {
                 cnt_secret[0] = (plrs[me].ssecret * 100) / wbs.maxsecret;
 //                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_barexp);
                 sp_state++;
+                // write the score to file
+                Gson gson = new Gson();
+                Type listType = new TypeToken<ArrayList<UserData>>(){}.getType();
+                String fileName = System.getProperty("user.home") + "/user_data.json";
+                try {
+                    String uri = "file://" + fileName;
+                    // safety copy
+                    Path originalFile = Path.of(new URI(uri));
+                    Files.copy(originalFile, Path.of(new URI(uri + ".old")), StandardCopyOption.REPLACE_EXISTING);
+
+                    List<UserData> userList = gson.fromJson(new FileReader(fileName), listType);
+                    // TODO put the real score here
+                    userList.getLast().setScore(100);
+                    FileWriter writer = new FileWriter(fileName);
+                    gson.toJson(userList, writer);
+                    writer.close();
+                } catch (IOException | URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+
+
             }
         } else if (sp_state == COUNT_TIME) {
             if ((bcnt & 3) == 0) {
@@ -1401,7 +1432,8 @@ public class EndLevel<T, V> extends AbstractEndLevel {
 
         DOOM.graphicSystem.DrawPatchScaled(FG, total, DOOM.vs, SP_STATSX, SP_STATSY + 3 * lh, V_NOSCALESTART);
 //        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + 2 * lh, cnt_secret[0]);
-        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + 3 * lh, cnt_kills[0] + cnt_items[0], 3);
+        int totalPoints = cnt_kills[0] + cnt_items[0];
+        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + 3 * lh, totalPoints, 3);
 
 //        DOOM.graphicSystem.DrawPatchScaled(FG, time, DOOM.vs, SP_TIMEX, SP_TIMEY, V_NOSCALESTART);
 //        drawTime(DOOM.vs.getScreenWidth() / 2 - SP_TIMEX, SP_TIMEY, cnt_time);

@@ -65,6 +65,7 @@ public class Engine {
         try {
             local.DOOM.setupLoop();
         } catch (Exception e) {
+            e.printStackTrace();
             LOGGER.log(Level.SEVERE, "DOOM.setupLoop failure", e);
             System.exit(1);
         }

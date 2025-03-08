@@ -56,7 +56,6 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -83,8 +82,6 @@ import w.DoomBuffer;
 import w.DoomIO;
 import w.IPackableDoomObject;
 import w.IReadableDoomObject;
-
-import javax.xml.crypto.Data;
 
 /**
  * Extended player object info: player_t The player data structure depends on a
@@ -141,29 +138,34 @@ public class player_t /*extends mobj_t */ implements Cloneable, IReadableDoomObj
         //weaponinfo=new weaponinfo_t();
     }
 
-    private record UserData(String name, String email, long starttime, int score) {}
 
     private int determineTimeLeft() {
         Gson gson = new Gson();
-        int timeleft = 0;
+        int timeLeft = 0;
         try {
             // Parsing JSON from a file into a Java object
             Type listType = new TypeToken<ArrayList<UserData>>(){}.getType();
-            List<UserData> userList = gson.fromJson(new FileReader(System.getProperty("user.home") + "/user_data.json"), listType);
-            long starttime = userList.getLast().starttime;
+            String fileName = System.getProperty("user.home") + "/user_data.json";
+            List<UserData> userList = gson.fromJson(new FileReader(fileName), listType);
+
+            if (userList == null) {
+                throw new RuntimeException("The following file could not be parsed: " + fileName);
+            }
+
+            long startTime = userList.getLast().getStarttime();
             long now = new Date().getTime() / 1000;
-            timeleft = (int) (300 - (now - starttime)) ;
+            timeLeft = (int) (300 - (now - startTime)) ;
 
             // normalize
-            if (timeleft > 300) {
+            if (timeLeft > 300) {
                 return 300;
-            } else if (timeleft < 0) {
+            } else if (timeLeft < 0) {
                 return 0;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return timeleft;
+        return timeLeft;
     }
 
     public final static int CF_NOCLIP = 1; // No damage, no health loss.
@@ -465,7 +467,7 @@ public class player_t /*extends mobj_t */ implements Cloneable, IReadableDoomObj
      * 1/2 clip).
      *
      * @return false if the ammo can't be picked up at all
-     * @param ammo
+     * @param amm
      * intended to be ammotype_t.
      */
     public boolean GiveAmmo(ammotype_t amm, int num) {
