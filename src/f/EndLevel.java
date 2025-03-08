@@ -1354,13 +1354,13 @@ public class EndLevel<T, V> extends AbstractEndLevel {
                 cnt_par = wbs.partime / TICRATE;
 
                 if (cnt_time >= plrs[me].stime / TICRATE) {
-                    DOOM.doomSound.StartSound(null, sfxenum_t.sfx_barexp);
+//                    DOOM.doomSound.StartSound(null, sfxenum_t.sfx_barexp);
                     sp_state++;
                 }
             }
         } else if (sp_state == COUNT_DONE) {
             if (acceleratestage != 0) {
-                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_sgcock);
+                //DOOM.doomSound.StartSound(null, sfxenum_t.sfx_sgcock);
 
                 if (DOOM.isCommercial()) {
                     initNoState();
