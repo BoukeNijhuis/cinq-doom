@@ -25,6 +25,9 @@ import static data.Defines.pw_ironfeet;
 import static data.Defines.pw_strength;
 import static data.Limits.MAXHEALTH;
 import static data.Limits.MAXPLAYERS;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import data.Tables;
 import static data.Tables.ANG180;
 import static data.Tables.ANG90;
@@ -48,11 +51,16 @@ import static doom.SourceCode.P_Pspr.P_BringUpWeapon;
 import static doom.SourceCode.P_Pspr.P_SetPsprite;
 import static doom.SourceCode.P_Pspr.P_SetupPsprites;
 import static doom.items.weaponinfo;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+
+import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import static m.fixed_t.FRACBITS;
 import static m.fixed_t.FRACUNIT;
 import static m.fixed_t.FixedMul;
@@ -75,6 +83,8 @@ import w.DoomBuffer;
 import w.DoomIO;
 import w.IPackableDoomObject;
 import w.IReadableDoomObject;
+
+import javax.xml.crypto.Data;
 
 /**
  * Extended player object info: player_t The player data structure depends on a
@@ -114,7 +124,9 @@ public class player_t /*extends mobj_t */ implements Cloneable, IReadableDoomObj
         powers = new int[NUMPOWERS];
         frags = new int[MAXPLAYERS];
         // TODO initialize the starting time properly (never less than 1!)
-        time = new int[]{5};
+
+
+        time = new int[]{determineTimeLeft()};
         ammo = new int[NUMAMMO];
         //maxammo = new int[NUMAMMO];
         maxammo = new int[NUMAMMO];
@@ -127,6 +139,31 @@ public class player_t /*extends mobj_t */ implements Cloneable, IReadableDoomObj
         readyweapon = weapontype_t.wp_fist;
         this.cmd = new ticcmd_t();
         //weaponinfo=new weaponinfo_t();
+    }
+
+    private record UserData(String name, String email, long starttime, int score) {}
+
+    private int determineTimeLeft() {
+        Gson gson = new Gson();
+        int timeleft = 0;
+        try {
+            // Parsing JSON from a file into a Java object
+            Type listType = new TypeToken<ArrayList<UserData>>(){}.getType();
+            List<UserData> userList = gson.fromJson(new FileReader(System.getProperty("user.home") + "/user_data.json"), listType);
+            long starttime = userList.getLast().starttime;
+            long now = new Date().getTime() / 1000;
+            timeleft = (int) (300 - (now - starttime)) ;
+
+            // normalize
+            if (timeleft > 300) {
+                return 300;
+            } else if (timeleft < 0) {
+                return 0;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return timeleft;
     }
 
     public final static int CF_NOCLIP = 1; // No damage, no health loss.
