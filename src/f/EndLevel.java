@@ -1320,8 +1320,8 @@ public class EndLevel<T, V> extends AbstractEndLevel {
                 DOOM.doomSound.StartSound(null, sfxenum_t.sfx_pistol);
             }
 
-            if (cnt_items[0] >= (plrs[me].sitems * 100) / wbs.maxitems) {
-                cnt_items[0] = (plrs[me].sitems * 100) / wbs.maxitems;
+            if (cnt_items[0] >= plrs[me].sitems) { // (plrs[me].sitems * 100) / wbs.maxitems) {
+                cnt_items[0] = plrs[me].sitems; // (plrs[me].sitems * 100) / wbs.maxitems;
                 DOOM.doomSound.StartSound(null, sfxenum_t.sfx_barexp);
                 sp_state++;
             }
@@ -1395,12 +1395,13 @@ public class EndLevel<T, V> extends AbstractEndLevel {
 //        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY, cnt_kills[0]);
         drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY, cnt_kills[0], 3);
 
-        DOOM.graphicSystem.DrawPatchScaled(FG, items, DOOM.vs, SP_STATSX, SP_STATSY + lh, V_NOSCALESTART);
+        DOOM.graphicSystem.DrawPatchScaled(FG, time, DOOM.vs, SP_STATSX, SP_STATSY + lh, V_NOSCALESTART);
 //        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + lh, cnt_items[0]);
         drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + lh, cnt_items[0], 3);
 
-//        DOOM.graphicSystem.DrawPatchScaled(FG, sp_secret, DOOM.vs, SP_STATSX, SP_STATSY + 2 * lh, V_NOSCALESTART);
+        DOOM.graphicSystem.DrawPatchScaled(FG, total, DOOM.vs, SP_STATSX, SP_STATSY + 3 * lh, V_NOSCALESTART);
 //        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + 2 * lh, cnt_secret[0]);
+        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + 3 * lh, cnt_kills[0] + cnt_items[0], 3);
 
 //        DOOM.graphicSystem.DrawPatchScaled(FG, time, DOOM.vs, SP_TIMEX, SP_TIMEY, V_NOSCALESTART);
 //        drawTime(DOOM.vs.getScreenWidth() / 2 - SP_TIMEX, SP_TIMEY, cnt_time);

@@ -113,8 +113,8 @@ public class player_t /*extends mobj_t */ implements Cloneable, IReadableDoomObj
         this.DOOM = DOOM;
         powers = new int[NUMPOWERS];
         frags = new int[MAXPLAYERS];
-        // TODO initialize the starting time properly
-        time = new int[]{300};
+        // TODO initialize the starting time properly (never less than 1!)
+        time = new int[]{5};
         ammo = new int[NUMAMMO];
         //maxammo = new int[NUMAMMO];
         maxammo = new int[NUMAMMO];

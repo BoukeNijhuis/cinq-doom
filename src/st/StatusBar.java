@@ -1323,6 +1323,11 @@ public class StatusBar extends AbstractStatusBar {
         long now = new Date().getTime();
         if ((now - oldTimestamp) > 1000) {
             plyr.time[0]--;
+            // time should never be negative
+            if (plyr.time[0] < 0) {
+                plyr.time[0] = 0;
+            }
+
             // end level when timer reaches zero
             if (plyr.time[0] <= 0) {
                 DOOM.ExitLevel();
