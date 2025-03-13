@@ -33,8 +33,8 @@ if [ "$USER_INPUT" = "CANCELLED" ]; then
     exit 0
 fi
 
-NAME=$(echo "$USER_INPUT" | awk -F, '{print $2}')
-EMAIL=$(echo "$USER_INPUT" | awk -F, '{print $3}')
+NAME=$(echo "$USER_INPUT" | awk -F, '{print $2}' | xargs)
+EMAIL=$(echo "$USER_INPUT" | awk -F, '{print $3}' | xargs)
 
 # Decided to go for the unix timestamp. If you'd rather have a date/time string,
 # use the timestamp in comments below.
