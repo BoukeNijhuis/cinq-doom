@@ -53,3 +53,6 @@ else
 fi
 
 echo "Data saved to $OUTPUT_FILE"
+
+# Open IntelliJ
+open -a "IntelliJ IDEA"
