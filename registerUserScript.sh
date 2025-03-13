@@ -43,7 +43,7 @@ TIMESTAMP=$(date +%s)
 
 NEW_ENTRY=$(jq -n --arg ts "$TIMESTAMP" --arg un "$NAME" --arg em "$EMAIL" '{name: $un, email: $em, starttime: $ts}')
 
-if [ ! -f "$OUTPUT_FILE" ]; then
+if [ ! -s "$OUTPUT_FILE" ]; then
     echo "[$NEW_ENTRY]" > "$OUTPUT_FILE"
 else
     # Decided to make use of a temp file as a safeguard to prevent data loss while executing.
