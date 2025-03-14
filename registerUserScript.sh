@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# First resets the repository
+git reset --hard
+
 # Set where you want the output file, make sure to use a .json extension.
 OUTPUT_FILE="$HOME/user_data.json"
 
