@@ -12,9 +12,13 @@ EXPLAIN="The game works as follows:\n
 After pressing OK, you will have to register your name and email. \n
 After submitting both values, a FIVE minute timer will start and IntelliJ will be started. \n
 First you will have to fix THREE bugs in the code and then you can run the game (control-R). \n
+The goal is to find the exit and kill enemies along the way. \n
 Your score will be based on the number of kills and the remaining seconds left. \n
 Every kill counts for TEN points and every remaining second counts for ONE point. \n
-The game will end when you exit the level, you die or the time runs out. \n
+The game will end when: \n
+- you exit the level (kill + time score) \n
+- you die (ONLY kill score) \n
+- the time runs out (ONLY kill score) \n
 Happy hunting!"
 
 USER_INPUT=$(osascript <<EOL
