@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# First resets the repository
+git reset --hard
+
 # Set where you want the output file, make sure to use a .json extension.
 OUTPUT_FILE="$HOME/user_data.json"
 
@@ -33,8 +36,8 @@ if [ "$USER_INPUT" = "CANCELLED" ]; then
     exit 0
 fi
 
-NAME=$(echo "$USER_INPUT" | awk -F, '{print $2}')
-EMAIL=$(echo "$USER_INPUT" | awk -F, '{print $3}')
+NAME=$(echo "$USER_INPUT" | awk -F, '{print $2}' | xargs)
+EMAIL=$(echo "$USER_INPUT" | awk -F, '{print $3}' | xargs)
 
 # Decided to go for the unix timestamp. If you'd rather have a date/time string,
 # use the timestamp in comments below.
@@ -43,7 +46,7 @@ TIMESTAMP=$(date +%s)
 
 NEW_ENTRY=$(jq -n --arg ts "$TIMESTAMP" --arg un "$NAME" --arg em "$EMAIL" '{name: $un, email: $em, starttime: $ts}')
 
-if [ ! -f "$OUTPUT_FILE" ]; then
+if [ ! -s "$OUTPUT_FILE" ]; then
     echo "[$NEW_ENTRY]" > "$OUTPUT_FILE"
 else
     # Decided to make use of a temp file as a safeguard to prevent data loss while executing.
@@ -53,3 +56,6 @@ else
 fi
 
 echo "Data saved to $OUTPUT_FILE"
+
+# Open IntelliJ
+open -a "IntelliJ IDEA"
