@@ -21,7 +21,7 @@ The game will end when: \n
 - the time runs out (ONLY kill score) \n
 Happy hunting!"
 
-USER_INPUT=$(osascript <<EOL
+USER_INPUT=$(osascript <<EOL &>/dev/null
 set userInput to {"", ""}
 try
     repeat
@@ -65,4 +65,4 @@ fi
 echo "Data saved to $OUTPUT_FILE"
 
 # Open IntelliJ
-open -a "IntelliJ IDEA"
+open -a "IntelliJ IDEA" &>/dev/null
