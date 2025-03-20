@@ -1332,6 +1332,13 @@ public class StatusBar extends AbstractStatusBar {
             if (plyr.time[0] <= 0) {
                 DOOM.ExitLevel();
             }
+
+            // end level when player dies
+            if (plyr.health[0] <= 0) {
+                // no time score
+                plyr.time[0] = 0;
+                DOOM.ExitLevel();
+            }
             oldTimestamp = now;
         }
 
