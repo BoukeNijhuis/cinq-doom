@@ -7,12 +7,15 @@ git reset --hard
 OUTPUT_FILE="$HOME/user_data.json"
 
 # Set the title (top bar of dialog) and explanation texts
-TITLE="Welcome to the Cinq DOOM Game"
+TITLE="Welcome to the CINQ DOOM Game"
 EXPLAIN="The game works as follows:\n
-Register name and email. \
-When submitted the timer will start and you \
-have 5 minutes to correct the code in the project and then finish the game within 5 minutes. \
-The final score will be based on the killcount and the remaining seconds left."
+After pressing OK, you will have to register your name and email. \n
+After submitting both values, a FIVE minute timer will start and IntelliJ will be started. \n
+First you will have to fix THREE bugs in the code and then you can run the game (control-R). \n
+Your score will be based on the number of kills and the remaining seconds left. \n
+Every kill counts for TEN points and every remaining second counts for ONE point. \n
+The game will end when you exit the level, you die or the time runs out. \n
+Happy hunting!"
 
 USER_INPUT=$(osascript <<EOL
 set userInput to {"", ""}
