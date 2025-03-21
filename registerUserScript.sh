@@ -21,7 +21,7 @@ The game will end when: \n
 - the time runs out (ONLY kill score) \n
 Happy hunting! \n
 \n
-P.S. During test runs we noticed that not everybody has played Doom before. So the player moves  \
+P.S. During test runs we noticed that not everybody has played Doom before. So the player moves \
 around by using the WASD keys. You shoot by clicking the left mouse button and you open doors with \
 SPACE. The exit of the level is labeled EXIT and in the exit room there is an exit button. You can \
 activate this button by pressing SPACE. This will end the game."
