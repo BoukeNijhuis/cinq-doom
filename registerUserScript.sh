@@ -26,7 +26,7 @@ around by using the WASD keys. You shoot by clicking the left mouse button and y
 SPACE. The exit of the level is labeled EXIT and in the exit room there is an exit button. You can \
 activate this button by pressing SPACE. This will end the game."
 
-USER_INPUT=$(osascript <<EOL
+USER_INPUT=$(osascript <<EOL &>/dev/null
 set userInput to {"", ""}
 try
     repeat
@@ -70,4 +70,4 @@ fi
 echo "Data saved to $OUTPUT_FILE"
 
 # Open IntelliJ
-open -a "IntelliJ IDEA"
+open -a "IntelliJ IDEA" &>/dev/null
