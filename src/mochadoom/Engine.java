@@ -16,7 +16,7 @@
  */
 package mochadoom;
 
-import awt.DoomWindow;
+//import awt.DoomWindow;
 import awt.DoomWindowController;
 import awt.EventBase.KeyStateInterest;
 import static awt.EventBase.KeyStateSatisfaction.WANTS_MORE_ATE;
@@ -66,7 +66,7 @@ public class Engine {
             local.DOOM.setupLoop();
         } catch (Exception e) {
             e.printStackTrace();
-            LOGGER.log(Level.SEVERE, "DOOM.setupLoop failure", e);
+            LOG.log(Level.SEVERE, "DOOM.setupLoop failure", e);
             System.exit(1);
         }
     }
@@ -172,7 +172,7 @@ public class Engine {
     }
 
     public static CVarManager getCVM() {
-        return getEngine().cvm;
+        return getEngine().cvm
     }
 
     public static ConfigManager getConfig() {
