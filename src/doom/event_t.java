@@ -408,6 +408,7 @@ public interface event_t {
 
             // Mouse haven't left centre of the window
             if (mouseX == centreX && mouseY == centreY) {
+                this.x = this.x / 2;
                 return;
             }
 
@@ -441,21 +442,7 @@ public interface event_t {
                 this.x += (mouseX - centreX) << 2;
                 this.y += (centreY - mouseY) << 2;
             }
-
-            // determine the direction of the mouse movement
-            int diff = mouseX - centreX;
-
-            // on the most right pixel of the screen
-            if (mouseX == centreX && mouseX == 1727 ) {
-                diff = diff + 10;
-            }
-
-            // on the most left pixel of the screen
-            if (mouseX == centreX && mouseX == 0 ) {
-                diff = diff - 10;
-            }
-
-            this.x = diff * 20;
+            this.x *= 2;
         }
 
         public void moveIn(MouseEvent ev, Robot robot, Point windowOffset, int centreX, int centreY, boolean drag) {
