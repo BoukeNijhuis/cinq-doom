@@ -308,7 +308,7 @@ public enum EventHandler implements EventBase<EventHandler> {
                 MouseEvent lastEvent = (MouseEvent) observer.lastEvent;
                 if (lastEvent != null) {
                     // misuse centreX for previous x position
-                    centreX = lastEvent.getX();
+                    //centreX = lastEvent.getX();
                 }
                 observer.mouseEvent.moveIn((MouseEvent) ev, EventObserver.MOUSE_ROBOT.get(), offset, centreX, centreY, isDrag);
             } else {
