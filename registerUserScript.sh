@@ -14,6 +14,7 @@ After submitting both values, a FIVE minute timer will start and IntelliJ will b
 First you will have to fix THREE bugs in the code and then you can run the game (control-R). \n
 The goal is to find the exit and kill enemies along the way. \n
 Your score will be based on the number of kills and the remaining seconds left. \n
+You will find the remaining seconds in the bottom right corner. \n
 Every kill counts for TEN points and every remaining second counts for ONE point. \n
 The game will end when: \n
 - you exit the level (kill + time score) \n
@@ -23,7 +24,7 @@ Happy hunting! \n
 \n
 P.S. During test runs we noticed that not everybody has played Doom before. So the player moves \
 around by using the WASD keys. You shoot by clicking the left mouse button and you open doors with \
-SPACE. The exit of the level is labeled EXIT and in the exit room there is an exit button. You can \
+SPACE. The exit of the level is labeled EXIT and in the exit room there is a green exit button. You can \
 activate this button by pressing SPACE. This will end the game."
 
 USER_INPUT=$(osascript <<EOL
