@@ -26,7 +26,7 @@ around by using the WASD keys. You shoot by clicking the left mouse button and y
 SPACE. The exit of the level is labeled EXIT and in the exit room there is an exit button. You can \
 activate this button by pressing SPACE. This will end the game."
 
-USER_INPUT=$(osascript >/dev/null 2>&1 <<EOL
+USER_INPUT=$(osascript <<EOL
 set userInput to {"", ""}
 try
     repeat
