@@ -407,8 +407,8 @@ public interface event_t {
             final int mouseX = ev.getX(), mouseY = ev.getY();
 
             // Mouse haven't left centre of the window
-            if (mouseX == centreX && mouseY == centreY) {
-                this.x = this.x / 2;
+            if (mouseX == centreX) {
+                this.x = (int) (this.x / 1.05);
                 return;
             }
 
@@ -442,7 +442,6 @@ public interface event_t {
                 this.x += (mouseX - centreX) << 2;
                 this.y += (centreY - mouseY) << 2;
             }
-            this.x *= 5;
         }
 
         public void moveIn(MouseEvent ev, Robot robot, Point windowOffset, int centreX, int centreY, boolean drag) {
