@@ -160,7 +160,7 @@ public class player_t /*extends mobj_t */ implements Cloneable, IReadableDoomObj
             if (timeLeft > 300) {
                 return 300;
             } else if (timeLeft < 0) {
-                return 0;
+                return 30;
             }
         } catch (IOException e) {
             e.printStackTrace();
