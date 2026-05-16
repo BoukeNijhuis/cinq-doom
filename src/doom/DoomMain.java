@@ -584,13 +584,13 @@ public class DoomMain<T, V> extends DoomStatus<T, V> implements IDoomGameNetwork
             //#endif
 
             // simulate stepping through menu (only on the first frame)
-            if (frameon == 1) {
-                menu.StartControlPanel();
-                event_t event = new event_t.keyevent_t(ev_keydown, Signals.ScanCode.SC_ENTER);
-                menu.Responder(event);
-                menu.Responder(event);
-                DoNewGame();
-            }
+//            if (frameon == 1) {
+//                menu.StartControlPanel();
+//                event_t event = new event_t.keyevent_t(ev_keydown, Signals.ScanCode.SC_ENTER);
+//                menu.Responder(event);
+//                menu.Responder(event);
+//                DoNewGame();
+//            }
         }
     }
 
@@ -660,8 +660,9 @@ public class DoomMain<T, V> extends DoomStatus<T, V> implements IDoomGameNetwork
                 }
                 gamestate = GS_DEMOSCREEN;
 
-                if (wadLoader.CheckNumForName("TITLEPIC") != -1) {
-                    pagename = "TITLEPIC";
+                // load slide instead of titlepic
+                if (wadLoader.CheckNumForName("SLIDE") != -1) {
+                    pagename = "SLIDE";
                 } else {
                     if (wadLoader.CheckNumForName("DMENUPIC") != -1) {
                         pagename = "DMENUPIC";
@@ -680,7 +681,7 @@ public class DoomMain<T, V> extends DoomStatus<T, V> implements IDoomGameNetwork
             case 2:
                 pagetic = 200;
                 gamestate = GS_DEMOSCREEN;
-                pagename = "CREDIT";
+//                pagename = "CREDIT";
                 break;
             case 3:
                 DeferedPlayDemo("demo2");
@@ -694,11 +695,11 @@ public class DoomMain<T, V> extends DoomStatus<T, V> implements IDoomGameNetwork
                 } else {
                     pagetic = 200;
 
-                    if (isRetail()) {
-                        pagename = "CREDIT";
-                    } else {
-                        pagename = "HELP1";
-                    }
+//                    if (isRetail()) {
+//                        pagename = "CREDIT";
+//                    } else {
+//                        pagename = "HELP1";
+//                    }
                 }
                 break;
             case 5:
