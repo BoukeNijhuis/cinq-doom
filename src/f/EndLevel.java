@@ -1311,7 +1311,7 @@ public class EndLevel<T, V> extends AbstractEndLevel {
             cnt_secret[0] = (plrs[me].ssecret * 100) / wbs.maxsecret;
             cnt_time = plrs[me].stime / TICRATE;
             cnt_par = wbs.partime / TICRATE;
-            DOOM.doomSound.StartSound(null, sfxenum_t.sfx_barexp);
+//            DOOM.doomSound.StartSound(null, sfxenum_t.sfx_barexp);
             sp_state = 10;
         }
 
@@ -1320,24 +1320,24 @@ public class EndLevel<T, V> extends AbstractEndLevel {
             cnt_kills[0] += 2;
 
             if ((bcnt & 3) == 0) {
-                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_pistol);
+//                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_pistol);
             }
 
             if (cnt_kills[0] >= plrs[me].skills) { //(plrs[me].skills * 100) / wbs.maxkills) {
                 cnt_kills[0] = plrs[me].skills; //(plrs[me].skills * 100) / wbs.maxkills;
-                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_barexp);
+//                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_barexp);
                 sp_state++;
             }
         } else if (sp_state == COUNT_ITEMS) {
             cnt_items[0] += 2;
 
             if ((bcnt & 3) == 0) {
-                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_pistol);
+//                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_pistol);
             }
 
             if (cnt_items[0] >= plrs[me].sitems) { // (plrs[me].sitems * 100) / wbs.maxitems) {
                 cnt_items[0] = plrs[me].sitems; // (plrs[me].sitems * 100) / wbs.maxitems;
-                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_barexp);
+//                DOOM.doomSound.StartSound(null, sfxenum_t.sfx_barexp);
                 sp_state++;
             }
         } else if (sp_state == COUNT_SECRETS) {
@@ -1430,28 +1430,28 @@ public class EndLevel<T, V> extends AbstractEndLevel {
         // line height
         int lh;
 
-        lh = (3 * num[0].height * DOOM.vs.getScalingY()) / 2;
+//        lh = (3 * num[0].height * DOOM.vs.getScalingY()) / 2;
 
         slamBackground();
 
         // draw animated background
         drawAnimatedBack();
 
-        drawLF();
+//        drawLF();
 
-        DOOM.graphicSystem.DrawPatchScaled(FG, kills, DOOM.vs, SP_STATSX, SP_STATSY, V_NOSCALESTART);
+//        DOOM.graphicSystem.DrawPatchScaled(FG, kills, DOOM.vs, SP_STATSX, SP_STATSY, V_NOSCALESTART);
 //        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY, cnt_kills[0]);
         int killScore = cnt_kills[0] * 10;
-        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY, killScore, 3);
+//        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY, killScore, 3);
 
-        DOOM.graphicSystem.DrawPatchScaled(FG, time, DOOM.vs, SP_STATSX, SP_STATSY + lh, V_NOSCALESTART);
+//        DOOM.graphicSystem.DrawPatchScaled(FG, time, DOOM.vs, SP_STATSX, SP_STATSY + lh, V_NOSCALESTART);
 //        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + lh, cnt_items[0]);
-        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + lh, cnt_items[0], 3);
+//        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + lh, cnt_items[0], 3);
 
-        DOOM.graphicSystem.DrawPatchScaled(FG, total, DOOM.vs, SP_STATSX, SP_STATSY + 3 * lh, V_NOSCALESTART);
+//        DOOM.graphicSystem.DrawPatchScaled(FG, total, DOOM.vs, SP_STATSX, SP_STATSY + 3 * lh, V_NOSCALESTART);
 //        drawPercent(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + 2 * lh, cnt_secret[0]);
-        totalScore = killScore + cnt_items[0];
-        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + 3 * lh, totalScore, 3);
+//        totalScore = killScore + cnt_items[0];
+//        drawNum(DOOM.vs.getScreenWidth() - SP_STATSX, SP_STATSY + 3 * lh, totalScore, 3);
 
 //        DOOM.graphicSystem.DrawPatchScaled(FG, time, DOOM.vs, SP_TIMEX, SP_TIMEY, V_NOSCALESTART);
 //        drawTime(DOOM.vs.getScreenWidth() / 2 - SP_TIMEX, SP_TIMEY, cnt_time);
@@ -1543,7 +1543,7 @@ public class EndLevel<T, V> extends AbstractEndLevel {
         anim_t a;
 
         if (DOOM.isCommercial()) {
-            name = "INTERPIC";
+            name = "SLIDE";
         } else { //sprintf(name, "WIMAP%d", wbs.epsd);
             name = ("WIMAP" + Integer.toString(wbs.epsd));
         }
@@ -1551,7 +1551,7 @@ public class EndLevel<T, V> extends AbstractEndLevel {
         // MAES: For Ultimate Doom
         if (DOOM.isRetail()) {
             if (wbs.epsd == 3) {
-                name = "INTERPIC";
+                name = "SLIDE";
             }
         }
 
