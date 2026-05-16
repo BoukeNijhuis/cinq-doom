@@ -690,7 +690,7 @@ public class DoomMain<T, V> extends DoomStatus<T, V> implements IDoomGameNetwork
                 gamestate = GS_DEMOSCREEN;
                 if (isCommercial()) {
                     pagetic = 35 * 11;
-                    pagename = "TITLEPIC";
+                    pagename = "SLIDE";
                     doomSound.StartMusic(musicenum_t.mus_dm2ttl);
                 } else {
                     pagetic = 200;
